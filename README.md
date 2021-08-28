@@ -1,5 +1,5 @@
 # 小爱课程表适配新正方教务系统-已适配河南工业大学、广西大学
-有bug欢迎联系qq:3450414733~
+有bug欢迎联系开发者qq:3450414733~
 教务系统网址：https://jwglxt.haut.edu.cn/jwglxt/xtgl/login_slogin.html
 ## 河南工业大学-新教务系统（正方）
 - 42059版本
