@@ -37,25 +37,18 @@ function weekStr2IntList(week) {
   return weeks;
 }
 function getSections(str) {//1-2 1、2
-  let start = parseInt(str.split('-')[0])
-  let startTimes = ["", "8:30", "9:20", "10:25", "11:15", "14:30", "15:20", "16:10", "17:00", "19:30", "20:05", "20:40"];
-  let end = parseInt(str.split('-')[1])
-  let endTimes = ["", "9:15", "10:05", "11:10", "12:00", "15:15", "16:05", "16:55", "17:45", "20:00", "20:35", "21:05"];
+  let [start, end] = str.split('-')
+  start = parseInt(start)
+  end = parseInt(end)
   let sections = []
-  for (let i = start; i <= end; i++) {
-      sections.push({ 
-        "section": i ,
-        "startTime": startTimes[i],
-        "endTime": endTimes[i]
-    })
-  }
+  for (let i = start; i <= end; i++)
+    sections.push(i)
   return sections
 }
 
 function getTime(str) {
-  let t = str.split('节)')
-  let reg = new RegExp('周', 'g')
-  let weekStr = t[1].replace(reg, '').split(',')
+  let t = str.split('节)')  // (1-2节)1-3周,4-8周 或 (1-2节)1-3周
+  let weekStr = t[1].replace(/周/g, '').split(',')  // 1-3周,4-8周
   let weeks = [] //1-3(单),4-8
   for (let i = 0; i < weekStr.length; i ++) {  //遍历数组
     let x = getWeeks(weekStr[i])
@@ -72,7 +65,6 @@ function getListWeeks(str) {
     weeks = weeks.concat(x)
   }
   return weeks
-
 }
 function getWeeks(str) {
   
@@ -169,7 +161,6 @@ function parseTable(html) {
           })
           let hasNext = true
           let index = 0
-          console.log(info)
           while (hasNext) {
               let course = {}
               course.name = checkLength(info[index], 39)
@@ -181,8 +172,8 @@ function parseTable(html) {
               course.sections = sections
               result.push(course)
               console.log(course)
-              if (info[index + 12] != undefined) {
-                  index += 12
+              if (info[index + 13] != undefined) {
+                  index += 13
               } else  {
                   hasNext = false
               }
@@ -200,64 +191,5 @@ function scheduleHtmlParser(html) {
   } else {
       result = parseTable(html)
   }
-
-  console.log(result.length)
-  sections = [ 
-      {
-        "section": 1,
-        "startTime": "08:30",
-        "endTime": "09:15"
-      },
-      {
-        "section": 2,
-        "startTime": "9:20",
-        "endTime": "10:05"
-      },
-      {
-        "section": 3,
-        "startTime": "10:25",
-        "endTime": "11:10"
-      },
-      {
-        "section": 4,
-        "startTime": "11:15",
-        "endTime": "12:30"
-      },
-      {
-        "section": 5,
-        "startTime": "14:30",
-        "endTime": "15:15"
-      },
-      {
-        "section": 6,
-        "startTime": "15:20",
-        "endTime": "16:05"
-      },
-      {
-        "section": 7,
-        "startTime": "16:10",
-        "endTime": "16:55"
-      },
-      {
-        "section": 8,
-        "startTime": "17:00",
-        "endTime": "17:45"
-      },
-      {
-        "section": 9,
-        "startTime": "19:05",
-        "endTime": "19:45"
-      },
-      {
-        "section": 10,
-        "startTime": "19:50",
-        "endTime": "20:35"
-      },
-      {
-        "section": 11,
-        "startTime": "20:35",
-        "endTime": "21:00"
-      }
-    ];
-  return { courseInfos: result, sectionTimes:sections}
+  return result
 }
